@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>VA6.2_HW1</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css"
+    />
+    <style>
+      #sucessfullyAdded {
+        color: green;
+      }
+    </style>
+  </head>
+  <body class="container py-3">
+    <h1>Add Movie</h1>
+
+    <form id="movieForm">
+      <label for="title">Title:</label>
+      <br />
+      <input type="text" id="title" />
+      <br />
+      <br />
+
+      <label for="year">Release Year:</label>
+      <br />
+      <input type="number" id="year" />
+      <br />
+      <br />
+
+      <label for="genre">Genre:</label>
+      <br />
+      <select id="genre">
+        <option value="Action">Action</option>
+        <option value="Drama">Drama</option>
+        <option value="Comedy">Comedy</option>
+        <option value="Romance">Romance</option>
+      </select>
+      <br />
+      <br />
+
+      <label for="director">Director:</label>
+      <br />
+      <input type="text" id="director" />
+      <br />
+      <br />
+
+      <label for="actors">Actors:</label>
+      <br />
+      <input type="text" id="actors" />
+      <br />
+      <br />
+
+      <label for="language">Language:</label>
+      <br />
+      <input type="text" id="language" />
+      <br />
+      <br />
+
+      <label for="country">Country:</label>
+      <br />
+      <select id="country">
+        <option value="India">India</option>
+        <option value="USA">USA</option>
+        <option value="China">China</option>
+      </select>
+      <br />
+      <br />
+
+      <label for="rating">Rating:</label>
+      <br />
+      <input type="number" id="rating" value="0" />
+      <br />
+      <br />
+
+      <label for="plot">Plot:</label>
+      <br />
+      <textarea id="plot"></textarea>
+      <br />
+      <br />
+
+      <label for="awards">Awards:</label>
+      <br />
+      <input type="text" id="awards" />
+      <br />
+      <br />
+
+      <label for="pUrl">Poster URL:</label>
+      <br />
+      <input type="text" id="pUrl" />
+      <br />
+      <br />
+
+      <label for="tUrl">Trailer URL:</label>
+      <br />
+      <input type="text" id="tUrl" />
+      <br />
+      <br />
+
+      <button class="btn btn-primary">Add Movie</button>
+    </form>
+    <br />
+    <div id="responseContainer"></div>
+    <div id="sucessfullyAdded"></div>
+
+    <script>
+      const movieForm = document.querySelector("#movieForm");
+      const title = document.querySelector("#title");
+      const year = document.querySelector("#year");
+      const genre = document.querySelector("#genre");
+      const director = document.querySelector("#director");
+      const actors = document.querySelector("#actors");
+      const language = document.querySelector("#language");
+      const country = document.querySelector("#country");
+      const rating = document.querySelector("#rating");
+      const plot = document.querySelector("#plot");
+      const awards = document.querySelector("#awards");
+      const pUrl = document.querySelector("#pUrl");
+      const tUrl = document.querySelector("#tUrl");
+      const sucessfullyAdded = document.querySelector("#sucessfullyAdded");
+
+      const responseContainer = document.querySelector("#responseContainer");
+
+      movieForm.addEventListener("submit", function () {
+        event.preventDefault();
+        responseContainer.textContent = "Sending Data....";
+
+        const apiUrl =
+          "https://va-5-assignment-express-student-neog.replit.app/movies";
+
+        const movieData = {
+          title: title.value,
+          year: year.value,
+          genre: genre.value,
+          director: director.value,
+          actors: actors.value,
+          language: language.value,
+          country: country.value,
+          rating: rating.vaue,
+          plot: plot.value,
+          awards: awards.value,
+          pUrl: pUrl.value,
+          tUrl: tUrl.value,
+        };
+        // console.log(movieData);
+
+        fetch(apiUrl, {
+          method: "POST",
+          body: JSON.stringify(movieData),
+          headers: { "Content-Type": "application/json" },
+        })
+          .then(function (response) {
+            return response.json();
+          })
+          .then(function (data) {
+            if (data) {
+              // console.log(data);
+              responseContainer.textContent = "";
+              sucessfullyAdded.textContent = "Movie Added Sucessfully.";
+            } else {
+              sucessfullyAdded.textContent = "Failed to add the Movie.";
+            }
+          });
+      });
+    </script>
+  </body>
+</html>
